@@ -5,7 +5,8 @@ namespace LaraBlockList\Models;
 use Illuminate\Database\Eloquent\Builder;
 use LaraBlockList\Enums\BlockListEnum;
 
-trait HasBlocklist {
+trait HasBlocklist
+{
 
     /**
      * Boot trait.
@@ -13,7 +14,10 @@ trait HasBlocklist {
     public static function bootHasBlocklist(): void
     {
         static::addGlobalScope(static::globalScopeAllowlisted(), function (Builder $builder) {
-            $builder->where(static::blocklistFieldName(), '<>', (string) BlockListEnum::BLOCKLISTED());
+            $builder->where(function (Builder $builder) {
+                $builder->where(static::blocklistFieldName(), '<>', (string) BlockListEnum::BLOCKLISTED())
+                        ->orWhereNull(static::blocklistFieldName());
+            });
         });
     }
 
@@ -24,9 +28,10 @@ trait HasBlocklist {
      *
      * @return mixed
      */
-    public function scopeBlocklisted($query)
+    public function scopeBlocklisted($query): mixed
     {
-        return $query->where(static::blocklistFieldName(), '=', (string) BlockListEnum::BLOCKLISTED());
+        return $query->withoutGlobalScope(static::globalScopeAllowlisted())
+                     ->where(static::blocklistFieldName(), '=', (string) BlockListEnum::BLOCKLISTED());
     }
 
     /**
@@ -34,7 +39,8 @@ trait HasBlocklist {
      *
      * @return string
      */
-    public static function globalScopeAllowlisted(): string {
+    public static function globalScopeAllowlisted(): string
+    {
         return 'withoutBlocklist';
     }
 

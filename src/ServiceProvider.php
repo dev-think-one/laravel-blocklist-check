@@ -2,7 +2,6 @@
 
 namespace LaraBlockList;
 
-
 use LaraBlockList\Console\Commands\CheckForBlocklistCommand;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -16,10 +15,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
 
             $this->commands([
-                CheckForBlocklistCommand::class
+                CheckForBlocklistCommand::class,
             ]);
         }
-
     }
 
     /**

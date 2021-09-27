@@ -4,7 +4,8 @@ namespace LaraBlockList\Contracts;
 
 use BlockListCheck\BlocklistProcessor;
 
-interface CanBeInBlocklist {
+interface CanBeInBlocklist
+{
 
     /**
      * Check is row allowlisted.

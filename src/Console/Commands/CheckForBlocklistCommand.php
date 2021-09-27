@@ -9,7 +9,8 @@ use Illuminate\Support\Collection;
 use LaraBlockList\Contracts\CanBeInBlocklist;
 use LaraBlockList\Jobs\CheckForBlocklistJob;
 
-class CheckForBlocklistCommand extends Command {
+class CheckForBlocklistCommand extends Command
+{
 
     /**
      * The name and signature of the console command.
@@ -34,32 +35,32 @@ class CheckForBlocklistCommand extends Command {
      */
     protected $description = '';
 
-    public function handle() {
-
+    public function handle()
+    {
         $job = CheckForBlocklistJob::class;
 
-        $model = $this->argument( 'model' );
+        $model = $this->argument('model');
 
-        if ( ! is_subclass_of( $model, Model::class ) || ! is_a( $model, CanBeInBlocklist::class, true ) ) {
-            throw new \Exception( "Class [{$model}] should be valid model." );
+        if (!is_subclass_of($model, Model::class) || !is_a($model, CanBeInBlocklist::class, true)) {
+            throw new \Exception("Class [{$model}] should be valid model.");
         }
 
-        if ( $id = $this->argument( 'id' ) ) {
-            $this->dispatchJob( $job, $model, $id );
+        if ($id = $this->argument('id')) {
+            $this->dispatchJob($job, $model, $id);
         } else {
             $query = $model::query();
 
-            if ( $from = $this->option( 'from' ) ) {
+            if ($from = $this->option('from')) {
                 $query->where(
                     $this->createdAtColumnName(),
                     '>=',
-                    Carbon::createFromFormat( 'Y-m-d', $from )->format( 'Y-m-d H:i:s' )
+                    Carbon::createFromFormat('Y-m-d', $from)->format('Y-m-d H:i:s')
                 );
             }
 
-            $query->select( $this->modelIdColumnName() )->chunk(
+            $query->select($this->modelIdColumnName())->chunk(
                 $this->chunkCount(),
-                fn( Collection $contacts ) => $this->dispatchJob( $job, $model, $contacts->pluck( $this->modelIdColumnName() )->toArray() )
+                fn (Collection $contacts) => $this->dispatchJob($job, $model, $contacts->pluck($this->modelIdColumnName())->toArray())
             );
         }
 
@@ -69,47 +70,52 @@ class CheckForBlocklistCommand extends Command {
     /**
      * @return string
      */
-    public function modelIdColumnName(): string {
-        return (string) $this->option( 'model_id_column' );
+    public function modelIdColumnName(): string
+    {
+        return (string) $this->option('model_id_column');
     }
 
     /**
      * @return string
      */
-    public function createdAtColumnName(): string {
-        return (string) $this->option( 'created_at_column' );
+    public function createdAtColumnName(): string
+    {
+        return (string) $this->option('created_at_column');
     }
 
     /**
      * @return int
      */
-    public function getDispatchDelay(): int {
-        return (int) $this->option( 'delay' );
+    public function getDispatchDelay(): int
+    {
+        return (int) $this->option('delay');
     }
 
     /**
      * @return int
      */
-    public function chunkCount(): int {
-        return (int) $this->option( 'chunk' );
+    public function chunkCount(): int
+    {
+        return (int) $this->option('chunk');
     }
 
     /**
      * @param string $job
      * @param ...$options
      */
-    protected function dispatchJob( string $job, ...$options ) {
-        $queueName = $this->option( 'queue' );
+    protected function dispatchJob(string $job, ...$options)
+    {
+        $queueName = $this->option('queue');
 
-        switch ( $queueName ) {
+        switch ($queueName) {
             case 'now':
             case 'sync':
-                $job::dispatchSync( ...$options );
+                $job::dispatchSync(...$options);
 
                 break;
             default:
-                $job::dispatch( ...$options )->onQueue( $queueName ?? 'default' )
-                    ->delay( now()->addMinutes( $this->getDispatchDelay() ) );
+                $job::dispatch(...$options)->onQueue($queueName ?? 'default')
+                    ->delay(now()->addMinutes($this->getDispatchDelay()));
 
                 break;
         }

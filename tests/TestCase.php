@@ -1,9 +1,24 @@
 <?php
 
-namespace LaraGeoData\Tests;
+namespace LaraBlockList\Tests;
+
+use Illuminate\Support\Facades\File;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (!class_exists('CreateBlocklistFixtureTables')) {
+            array_map('unlink', glob(__DIR__ . '/../vendor/orchestra/testbench-core/laravel/database/migrations/*.php'));
+            array_map(function ($f) {
+                File::copy($f, __DIR__ . '/../vendor/orchestra/testbench-core/laravel/database/migrations/' . basename($f));
+            }, glob(__DIR__ . '/Fixtures/migrations/*.php'));
+        }
+        $this->artisan('migrate', [ '--database' => 'testbench' ]);
+    }
+
     protected function getPackageProviders($app)
     {
         return [
