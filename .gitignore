@@ -1,0 +1,9 @@
+tests/db_config.php
+build
+composer.lock
+docs
+vendor
+coverage
+.phpunit.result.cache
+.idea
+.php-cs-fixer.cache
