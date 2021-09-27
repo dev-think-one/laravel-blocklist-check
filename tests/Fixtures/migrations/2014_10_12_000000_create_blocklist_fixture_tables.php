@@ -17,6 +17,7 @@ class CreateBlocklistFixtureTables extends Migration
             $table->id();
             $table->string('name');
             $table->string('blocklist')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
