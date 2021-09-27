@@ -14,7 +14,7 @@ class CheckForBlocklistJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected array $contacts = [];
+    protected array $entities = [];
 
     protected string $class;
 
@@ -23,16 +23,16 @@ class CheckForBlocklistJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $class, array|int|string $contacts = [])
+    public function __construct(string $class, array|int|string $entities = [])
     {
         $this->class    = $class;
-        $this->contacts = is_array($contacts) ? $contacts : [ $contacts ];
+        $this->entities = is_array($entities) ? $entities : [ $entities ];
     }
 
     public function handle()
     {
         /** @var CanBeInBlocklist|Model $entity */
-        foreach ($this->contacts as $entity) {
+        foreach ($this->entities as $entity) {
             if (!($entity instanceof $this->class)) {
                 $entity = $this->class::find($entity);
             }
