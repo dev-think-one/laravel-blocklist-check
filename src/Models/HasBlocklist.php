@@ -3,7 +3,7 @@
 namespace LaraBlockList\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use LaraBlockList\Enums\BlockListEnum;
+use LaraBlockList\Enums\BlockList;
 
 trait HasBlocklist
 {
@@ -15,7 +15,7 @@ trait HasBlocklist
     {
         static::addGlobalScope(static::globalScopeAllowlisted(), function (Builder $builder) {
             $builder->where(function (Builder $builder) {
-                $builder->where(static::blocklistFieldName(), '<>', (string) BlockListEnum::BLOCKLISTED())
+                $builder->where(static::blocklistFieldName(), '<>', BlockList::BLOCKLISTED->value)
                         ->orWhereNull(static::blocklistFieldName());
             });
         });
@@ -31,7 +31,7 @@ trait HasBlocklist
     public function scopeBlocklisted($query): mixed
     {
         return $query->withoutGlobalScope(static::globalScopeAllowlisted())
-                     ->where(static::blocklistFieldName(), '=', (string) BlockListEnum::BLOCKLISTED());
+                     ->where(static::blocklistFieldName(), '=', BlockList::BLOCKLISTED->value);
     }
 
     /**
@@ -61,7 +61,7 @@ trait HasBlocklist
      */
     public function isAllowlisted(): bool
     {
-        return $this->{static::blocklistFieldName()} == (string) BlockListEnum::ALLOWLISTED();
+        return $this->{static::blocklistFieldName()} == BlockList::ALLOWLISTED->value;
     }
 
     /**
@@ -71,7 +71,7 @@ trait HasBlocklist
      */
     public function isBlocklisted(): bool
     {
-        return $this->{static::blocklistFieldName()} == (string) BlockListEnum::BLOCKLISTED();
+        return $this->{static::blocklistFieldName()} == BlockList::BLOCKLISTED->value;
     }
 
     /**
@@ -83,7 +83,7 @@ trait HasBlocklist
      */
     public function toBlocklist(bool $permanently = false): static
     {
-        $this->{static::blocklistFieldName()} = (string) BlockListEnum::BLOCKLISTED();
+        $this->{static::blocklistFieldName()} = BlockList::BLOCKLISTED->value;
         if ($permanently) {
             $this->save();
         }
@@ -100,7 +100,7 @@ trait HasBlocklist
      */
     public function toAllowlist(bool $permanently = false): static
     {
-        $this->{static::blocklistFieldName()} = BlockListEnum::ALLOWLISTED();
+        $this->{static::blocklistFieldName()} = BlockList::ALLOWLISTED->value;
         if ($permanently) {
             $this->save();
         }
