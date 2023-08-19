@@ -14,7 +14,7 @@ Add model to blocklist/allowlist,
 Install the package via composer:
 
 ```bash
-composer require yaroslawww/laravel-blocklist-check
+composer require think.studio/laravel-blocklist-check
 ```
 
 Optionally you can publish the config file with:

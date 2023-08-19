@@ -1,17 +1,17 @@
 {
-    "name": "yaroslawww/laravel-blocklist-check",
+    "name": "think.studio/laravel-blocklist-check",
     "description": "Simple blocklist validator for laravel.",
     "keywords": [
         "laravel",
         "blocklist",
         "allowlist"
     ],
-    "homepage": "https://github.com/yaroslawww/laravel-blocklist-check",
+    "homepage": "https://github.com/dev-think-one/laravel-blocklist-check",
     "license": "MIT",
     "authors": [
         {
             "name": "Yaroslav Georgitsa",
-            "email": "yaroslav.georgitsa@gmail.com",
+            "email": "yg@think.studio",
             "homepage": "https://github.com/yaroslawww",
             "role": "Developer"
         }
