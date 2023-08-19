@@ -5,6 +5,9 @@ namespace LaraBlockList\Tests\Fixtures\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use LaraBlockList\Tests\Fixtures\Models\User;
 
+/**
+ * @extends Factory<User>
+ */
 class UserFactory extends Factory
 {
 

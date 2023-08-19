@@ -1,9 +1,11 @@
 # Laravel blocklist.
 
-![Packagist License](https://img.shields.io/packagist/l/yaroslawww/laravel-blocklist-check?color=%234dc71f)
-[![Build Status](https://scrutinizer-ci.com/g/yaroslawww/laravel-blocklist-check/badges/build.png?b=master)](https://scrutinizer-ci.com/g/yaroslawww/laravel-blocklist-check/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/yaroslawww/laravel-blocklist-check/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yaroslawww/laravel-blocklist-check/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yaroslawww/laravel-blocklist-check/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yaroslawww/laravel-blocklist-check/?branch=master)
+![Packagist License](https://img.shields.io/packagist/l/think.studio/laravel-blocklist-check?color=%234dc71f)
+[![Packagist Version](https://img.shields.io/packagist/v/think.studio/laravel-blocklist-check)](https://packagist.org/packages/think.studio/laravel-blocklist-check)
+[![Total Downloads](https://img.shields.io/packagist/dt/think.studio/laravel-blocklist-check)](https://packagist.org/packages/think.studio/laravel-blocklist-check)
+[![Build Status](https://scrutinizer-ci.com/g/dev-think-one/laravel-blocklist-check/badges/build.png?b=main)](https://scrutinizer-ci.com/g/dev-think-one/laravel-blocklist-check/build-status/main)
+[![Code Coverage](https://scrutinizer-ci.com/g/dev-think-one/laravel-blocklist-check/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/dev-think-one/laravel-blocklist-check/?branch=main)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dev-think-one/laravel-blocklist-check/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/dev-think-one/laravel-blocklist-check/?branch=main)
 
 Add model to blocklist/allowlist,
 
@@ -25,7 +27,7 @@ php artisan vendor:publish --provider="LaraBlockList\ServiceProvider" --tag="con
 
 Update your model:
 
-```injectablephp
+```php
 use LaraBlockList\Contracts\CanBeInBlocklist;
 use LaraBlockList\Models\HasBlocklist;
 
